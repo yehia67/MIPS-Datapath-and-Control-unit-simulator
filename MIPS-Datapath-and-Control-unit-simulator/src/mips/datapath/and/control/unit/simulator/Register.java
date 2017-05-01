@@ -10,11 +10,12 @@ package mips.datapath.and.control.unit.simulator;
  * @author Sony
  */
 public class Registers {
-   public int value;
+   private int value;
     public String name;
     public int data;// value that we take from user
-  private int zero = 0;
- public String getname()
+  private int zero = 0;// la2ytha hint fl project discription
+ // get w set malhomsh lazma bas ana saybhom 7orss
+  public String getname()
   {
      return name ;
   }
@@ -30,75 +31,75 @@ public int getvalue()
 {
     return value;
 }
-public int determinvalue(String x)
+public int determinvalue(String x) //hanshoof el function di fl a5r matrkzoosh fiha dlw2ty
 {
     if(x == "$zero" || x == "$0")
     {
-        return  0;
+        return value =  0;
     }
 if(x == "$at")
 {
-    return 1;
+    return value = 1;
 }
 if(x == "$at")
 {
-    return 1;
+    return value = 1;
 }
 if(x == "$vo")
 {
-    return 2;
+    return value = 2;
 }
 if(x == "$v1")
 {
-    return 3;
+    return value = 3;
 }
 if(x == "$ao")
 {
-    return 4;
+    return value = 4;
 }
 if(x == "$a1")
 {
-    return 5;
+    return value = 5;
 }
 if(x == "$a2")
 {
-    return 6;
+    return value = 6;
 }
 if(x == "$a3")
 {
-    return 7;
+    return value = 7;
 }
 if(x == "$t0")
 {
-    return 8;
+    return value = 8;
 }
 if(x == "$t1")
 {
-    return 9;
+    return value = 9;
 }
 if(x == "$t2")
 {
-    return 10;
+    return value = 10;
 }
 if(x == "$t3")
 {
-    return 11;
+    return value = 11;
 }
 if(x == "$t4")
 {
-    return 12;
+    return value = 12;
 }
 if(x == "$t5")
 {
-    return 13;
+    return value = 13;
 }
 if(x == "$t6")
 {
-    return 14;
+    return value = 14;
 }
 if(x == "$t7")
 {
-    return 12;
+    return value = 12;
 }
 // zh2t hakml el ba2yy ama nygy n3mlo
 return -1;
