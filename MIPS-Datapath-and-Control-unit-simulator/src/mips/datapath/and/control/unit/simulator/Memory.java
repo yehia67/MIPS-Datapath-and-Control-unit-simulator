@@ -12,7 +12,44 @@ import java.util.ArrayList;
  * @author Sony
  */
 public class Memory {
-    
+private ArrayList <Double> Datamem;
+private ArrayList <Instruction> instrucmem;// 27tmal n3'ayr el data type di ama nygy n3ml class ll instruction
+public static int c = 0, pc = 0;// pc b3dyn haswyha bl adrress
+int counter = 0,PCcounter;
+public void setPC(int c)
+{
+    Memory.pc = c;
+}
+public int getPC()
+{
+    return pc;
+}
+public Memory(double x, Instruction y)
+{
+    Datamem.set(counter, x);
+    instrucmem.set(counter, y);
+    counter ++;
+    PCcounter += 4;
+    c = counter;
+    pc = PCcounter;
+}
+public void show()
+{
+    for(int i = 0; i < Datamem.size(); i++)
+    {
+        System.out.println("the adress of memory is "+Datamem.get(i)+" it instruction is "+instrucmem.get(i));
+        
+    }
+}
+public int found(double x){
+     for(int i = 0; i < Datamem.size(); i++)
+    {
+        if(x == Datamem.get(i))
+        {
+            return i ;
+        }
+    }
+return -1;
 }
 public double finddata (Instruction x)
 {
