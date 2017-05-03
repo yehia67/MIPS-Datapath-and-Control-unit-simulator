@@ -20,7 +20,7 @@ public class ALU {
         secondsrc = s;
     }
     public int opersation(String op,String func){
-        if(op == "00")    // I type
+        if(op == "00" && func != "00" && func != "01")     // I type
         {
           return firstsrc + secondsrc;
         }
