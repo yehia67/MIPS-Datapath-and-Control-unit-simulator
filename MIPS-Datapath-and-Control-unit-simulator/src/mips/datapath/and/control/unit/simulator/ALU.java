@@ -1,6 +1,7 @@
  package mips.datapath.and.control.unit.simulator;
 
 public class ALU {
+<<<<<<< HEAD
     private static String functionCode;
     private static int ALUOp;
     private static int firstSrc,secondSrc;
@@ -45,6 +46,50 @@ public class ALU {
                        break;
                case "101010":
                    output = firstSrc - secondSrc;
+=======
+    String ALUOP,functioncode;
+    int firstsrc,secondsrc;
+    private int output;
+    private boolean zero;
+    public ALU(String aluop,String funcod,int f, int s)
+    {
+        ALUOP = aluop;
+        functioncode = funcod;
+        firstsrc = f;
+        secondsrc = s;
+    }
+    public void opersation(String op,String func){
+        if(op.equals("00"))     // I type
+        {
+          output = firstsrc + secondsrc;
+          zero = false;
+        }
+        else if(op.equals("01"))
+        {
+             output = firstsrc - secondsrc;
+             if(output == 0) {
+                 zero = true;
+             } else {
+                 zero = false;
+             }
+        } else if(op.equals("10"))
+        {
+           switch(functioncode) {
+               case "0010" :
+                   output = firstsrc + secondsrc;
+                   break;
+               case "0110":
+                   output = firstsrc - secondsrc;
+                   break;
+               case "0000":
+                    output = firstsrc & secondsrc;
+                    break;
+               case "0001":
+                   output = firstsrc | secondsrc;
+                       break;
+               case "0111":
+                   output = firstsrc - secondsrc;
+>>>>>>> origin/master
                    if(output >= 0)
                        output = 0;
                    else 
@@ -53,6 +98,7 @@ public class ALU {
            }
         }
     }
+<<<<<<< HEAD
     
     public static int getOutput() {
         return output;
@@ -61,4 +107,12 @@ public class ALU {
     public static int getZeroSignal() {
         return zero;
     }
+=======
+    public boolean getZero(){
+        return zero;
+    }
+    public int getOutput(){
+        return output;
+    }
+>>>>>>> origin/master
 }
