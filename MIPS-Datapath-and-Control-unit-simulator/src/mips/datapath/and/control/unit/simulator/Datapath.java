@@ -1,13 +1,11 @@
 package mips.datapath.and.control.unit.simulator;
+
 public class Datapath {
-    ALU alu;
-    Mux mux ;
-    RegisterFile register = new RegisterFile ();
     String instruction;
-    SignExtend signextend;
+    //SignExtend signextend;
    
-    Adder addbeq;
-    Memory memory = new Memory();
+    /*Adder addbeq;
+    Memory memory;
     ShiftLeft shift;
     int memAdress;
     int memwritedata;
@@ -17,9 +15,24 @@ public class Datapath {
     int i150;
     String i50;
     int readdata1,readdata2,aluresult,regwritedata,memreaddata,muxtoalu;
-    boolean zero;
-    String pcAddress;
-    Control control;
+    boolean zero;*/
+    private int i2521 ;
+    private int i2016;
+    private int i1511,i250;
+    private int i150;
+    String i50;
+    private int readData1, readData2;
+    private int currentPCAddress = ProgramCounter.getAddress();
+    private Adder pcAdder = new Adder();
+    private Adder branchAdder = new Adder();
+    private Mux regDstMux = new Mux();
+    private Mux aluSrcMux = new Mux();
+    private Mux memtoRegMux = new Mux();
+    private Mux pcSrcMux = new Mux();
+    private Mux jumpMux = new Mux();
+    private int andGateResult;
+    private int jumpAddress;
+    
     public Datapath (){
     }
     
@@ -34,82 +47,82 @@ public class Datapath {
         i150= Integer.parseInt(instruction.substring(31-15, 32-0), 2);
 
     }
-    public void setInstruction (String ins, Control c)
+    public void setInstruction (String ins)
     {
         instruction= ins;
-        control = c;
         InstructionSeprator();
         excute();
     }
     private void excute()
     {
-       pc = ProgramCounter.getAddress();
-       pc += 4;
-       pcAddressToString();
-       if(control.getJump()==1) {
-           String newAddress = instruction.substring(31 - 25, 31 - 0) + "00";
-           newAddress = Integer.toBinaryString(pc).substring(0, 4) + newAddress;
-       }
-       readdata1 = register.getRegister(i2521).getData();
-       readdata2 = register.getRegister(i2016).getData();
-       
-       if (control.getAlusrc()==0)
-           muxresult = i2016;
-       else 
-           muxresult = i1511;
-       if (control.getAlusrc()==0)
-           muxtoalu= readdata2;
-       else {
-          muxtoalu=i150;
-       }
-       alu = new ALU(control.getAluop(), i50, readdata1,muxtoalu);
-       zero = alu.getZero();
-       aluresult = alu.getOutput();
-       if(control.getBranch() == 1 && zero == true) { // lama n3ml branching 
-           int branchTargetAddress = i150 * 4;
-           i250 = branchTargetAddress;
-           pc += branchTargetAddress;
-           jadress = pc;
-       }
-       if(control.getMemread() == 0 && control.getMemwrite() == 0&&control.getRegwrite()==1) { // law mesh han3m load wla store 
-           register.writeData(aluresult, muxresult);
-       }
-       if(control.getMemread() == 1) {   // lama n3ml load 
-           regwritedata= memory.load(aluresult);
-           memreaddata = regwritedata;
-           register.writeData(regwritedata, i2016);
-       }
-       if (control.getMemwrite()==1){                               // lama n3ml store
-           memwritedata = register.getRegister(i2016).getData();
-           memory.store(aluresult, memwritedata);
-       }
+        pcAdder.performOperation(currentPCAddress, 4);
+        jumpAddress = Integer.parseInt(ToBinary.convertToBinary(pcAdder.getOutput()
+                , 32).substring(0, 4) + instruction.substring(31 - 26, 32), 2);
+        
+        regDstMux.selectOutput(i2016, i1511, Control.getRegdst());
+        
+        readData1 = RegisterFile.getRegister(i2521).getData();
+        readData2 = RegisterFile.getRegister(i2016).getData();
+        
+        aluSrcMux.selectOutput(readData2, i150, Control.getAlusrc());
+        ALU.execute(Control.getAluop(), i50, readData1, aluSrcMux.getOutput());
+        
+        if(Control.getMemread() == 1) {
+            Memory.load(ALU.getOutput());
+        }
+        if(Control.getMemwrite() == 1) {
+            Memory.store(ALU.getOutput(), readData2);
+        }
+        
+        memtoRegMux.selectOutput(ALU.getOutput(), Memory.getReadData(), 
+                Control.getMemtoreg());
+        
+        if(Control.getRegwrite() == 1) {
+            RegisterFile.getRegister(regDstMux.getOutput()).setData(memtoRegMux.getOutput());
+        }
+        
+        branchAdder.performOperation(pcAdder.getOutput(), i150 * 4);
+        if(Control.getBranch() == 1 && ALU.getZeroSignal() == 1) {
+            andGateResult = 1;
+        } else {
+            andGateResult = 0;
+        }
+        
+        pcSrcMux.selectOutput(pcAdder.getOutput(), branchAdder.getOutput(),
+                andGateResult);
+        jumpMux.selectOutput(jumpAddress, pcSrcMux.getOutput(), Control.getJump());
+        
+        ProgramCounter.setAddress(jumpMux.getOutput());
+        print();
     }
     
     public void print() {
-        System.out.println("Datapath output :-\n");
-        System.out.println("PC wire holds : " + ProgramCounter.getAddress());
-        System.out.println("Instruction[31-26] wire holds : " + instruction.substring(0, 7));
-        System.out.println("Instruction[25 - 21] wire holds : " + i2521);
-        System.out.println("Instruction[20 - 16] wire holds : " + i2016);
-        System.out.println("Instruction[15 - 0] wire holds : " + i150);
-        System.out.println("Instruction[5 - 0] wire holds : " + i50);
-        System.out.println("read data 1 wire holds : " + readdata1);
-        System.out.println("read data 2 wire holds : " + readdata2);
-        System.out.println("Sign extend output wire holds : " + i150);
-        System.out.println("Second input to ALU wire holds : " + muxresult);
-        System.out.println("ALU result wire holds : " + aluresult);
-        System.out.println("Read data output from memory wire holds : " +
-                memreaddata);
-        System.out.println("Output from the MemtoReg mux holds : " + regwritedata);
-        System.out.println("First input wire to PC + 4 Adder holds : " + pc);
-        System.out.println("First input wire to PC + 4 Adder holds : " + pc);
-           
+        System.out.println("Machine code : " + instruction);
+        System.out.println("Current pc : " + currentPCAddress);
+        System.out.println("First source for pc adder : " + currentPCAddress);
+        System.out.println("second source for pc adder : 4");
+        System.out.println("Wires to control unit : " + instruction.substring(0, 6));
+        System.out.println("read register 1 wire : " + i2521);
+        System.out.println("read register 2 wire : " + i2016);
+        System.out.println("first source to regDst mux : " + i2016);
+        System.out.println("sec source to regDst mux : " + i1511);
+        System.out.println("regDst mux output : " + regDstMux.getOutput());
+        System.out.println("input to sign extends : " + i150);
+        System.out.println("read data 1 output wire : " + readData1);
+        System.out.println("read data 2 output wire : " + readData2);
+        System.out.println("sign extend output wire : " + i150);
+        System.out.println("alusrc mux output : " + aluSrcMux.getOutput());
+        System.out.println("instruction 5 - 0 wire : " + i50);
+        System.out.println("alu output : " + ALU.getOutput());
+        System.out.println("alu zero signal : " + ALU.getZeroSignal());
+        System.out.println("wire going to write data in memory : " +readData2);
+        System.out.println("read data from memory wire : " + Memory.getReadData());
+        System.out.println("memtoReg mux output wire : " + memtoRegMux.getOutput());
+        System.out.println("first src for branch adder wire : " + pcAdder.getOutput());
+        System.out.println("second src for branch adder wire : " + i150 * 4);
+        System.out.println("branch adder result wire  : " + branchAdder.getOutput());
+        System.out.println("first src for jump mux : " + jumpAddress);
+        System.out.println("pcsrc mux output wire : " + pcSrcMux.getOutput());
     }
     
-    public void pcAddressToString() {
-        pcAddress = Integer.toBinaryString(pc);
-        for(int i = 0; i < 32; i++) {
-            pcAddress = "0" + pcAddress;
-        }
-    }
 }

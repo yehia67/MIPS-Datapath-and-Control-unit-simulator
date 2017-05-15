@@ -16,14 +16,11 @@ import java.util.Scanner;
 public class MIPSDatapathAndControlUnitSimulator {
 
     public static void main(String[] args) {
-        String pcAddress = "";
-        int pc = 80000;
-        pcAddress = Integer.toBinaryString(pc);
-        for(int i = 0; i < 32; i++) {
-            pcAddress = "0" + pcAddress;
-        }
+        RegisterFile.initializeRegisters();
+        //addi $t1,$0,100
+        IFormat addi = new IFormat(null, 0,"addi", "$t1", "$0", 100);
         
-        System.out.println(pcAddress);
+        addi.execute();
     }
     
 }

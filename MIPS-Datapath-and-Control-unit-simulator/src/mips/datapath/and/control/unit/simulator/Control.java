@@ -1,16 +1,8 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package mips.datapath.and.control.unit.simulator;
 
-/**
- *
- * @author mahmoud
- */
 public class Control {
-    int regdst, branch , memread, memtoreg,aluop, memwrite, alusrc,regwrite, jump;
+    private static int regdst, branch , memread, memtoreg,aluop, memwrite,
+            alusrc,regwrite, jump;
     public Control ()
     {
        regdst=0;
@@ -21,53 +13,54 @@ public class Control {
        memwrite = 0;
        alusrc = 0;
        regwrite = 0;
-       jump = 0;
     }
-    public void setSignals ( int regdst,int branch ,int memread,int memtoreg,int aluop,int memwrite,int alusrc,int regwrite,int jump ){
-         this.regdst=regdst;
-        this.branch = branch;
-        this. memread = memread;
-        this. memtoreg = memtoreg;
-        this. aluop = aluop;
-        this. memwrite = memwrite;
-        this. alusrc = alusrc;
-        this. regwrite = regwrite;
-        this.jump = jump;
+    public static void setSignals (int mRegdst,int mBranch ,int mMemread,int mMemtoreg,
+            int mAluop,int mMemwrite,int mAlusrc,int mRegwrite, int mJump ){
+        regdst = mRegdst;
+        branch = mBranch;
+        memread = mMemread;
+        memtoreg = mMemtoreg;
+        aluop = mAluop;
+        memwrite = mMemwrite;
+        alusrc = mAlusrc;
+        regwrite = mRegwrite;
+        jump = mJump;
     }
 
-    public int getRegdst() {
+    public static int getRegdst() {
         return regdst;
     }
 
-    public int getBranch() {
+    public static int getBranch() {
         return branch;
     }
 
-    public int getMemread() {
+    public static int getMemread() {
         return memread;
     }
 
-    public int getMemtoreg() {
+    public static int getMemtoreg() {
         return memtoreg;
     }
 
-    public int getAluop() {
+    public static int getAluop() {
         return aluop;
     }
 
-    public int getMemwrite() {
+    public static int getMemwrite() {
         return memwrite;
     }
 
-    public int getAlusrc() {
+    public static int getAlusrc() {
         return alusrc;
     }
 
-    public int getRegwrite() {
+    public static int getRegwrite() {
         return regwrite;
     }
     
-    public int getJump() {
+    public static int getJump() {
         return jump;
-    }      
+    }
+            
 }

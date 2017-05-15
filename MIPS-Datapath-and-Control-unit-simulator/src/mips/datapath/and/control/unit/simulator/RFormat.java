@@ -6,120 +6,79 @@ public class RFormat extends Instruction{
     private int rt;
     private int rd;
     private int shamt;
-    private Control control;
-    public RFormat(String newLabel,int mAddress, 
-            ProgramCounter mProgramCounter, String operationName, String srcReg,
-            String targetReg, String dstReg, int mShamt, Control c ) {
+    
+    public RFormat(String newLabel,int mAddress,String operation,
+            String rsName, String rtName, String rdName, int shamt) {
         super(newLabel, mAddress);
-        operation = operationName;
-        rs = registers.getRegisterNum(srcReg);
-        rt = registers.getRegisterNum(targetReg);
-        rd = registers.getRegisterNum(dstReg);
-        shamt = mShamt;
-        control = c;
-        //generateMachineCode();
+        this.operation = operation;
+        rs = RegisterFile.getRegisterNum(rsName);
+        rt = RegisterFile.getRegisterNum(rtName);
+        rd = RegisterFile.getRegisterNum(rdName);
+        this.shamt = shamt;
+        generateMachineCode();
     }
     
-    /*@Override
+    @Override
     public void generateMachineCode() {
         String machineCode = "000000";
+        String funcCode = "";
         switch(operation) {
-            case "add":
-                machineCode += Integer.toBinaryString(rs.getRegisterIndex());
-                machineCode += 
+            case "add" :
+                funcCode = "100000";
+                break;
+            case "and" :
+                funcCode = "100100";
+                break;
+            case "nor" :
+                funcCode = "100111";
+                break;
+            case "or" :
+                funcCode = "100101";
+                break;
+            case "sll" :
+                funcCode = "000000";
+                break;
+            case "slt" :
+                funcCode = "101010";
+                break;
         }
-    }*/
+        
+        machineCode += ToBinary.convertToBinary(rs, 5);
+        machineCode += ToBinary.convertToBinary(rt, 5);
+        machineCode += ToBinary.convertToBinary(rd, 5);
+        machineCode += ToBinary.convertToBinary(shamt, 5);
+        machineCode += funcCode;
+        
+        setMachineCode(machineCode);
+    }
     
     @Override
     public void execute() {
         switch(operation) {
             case "add":
-                add();
+                Control.setSignals(1, 0, 0, 0, 2, 0, 0, 1, 0);
                 break;
             case "and":
-                and();
+                Control.setSignals(1, 0, 0, 0, 2, 0, 0, 1, 0);
                 break;
             case "or":
-                or();
+                Control.setSignals(1, 0, 0, 0, 2, 0, 0, 1,0);
                 break;
             case "nor":
-                nor();
+                Control.setSignals(1, 0, 0, 0, 2, 0, 0, 1,0);
                 break;
             case "slt":
-                slt();
+                Control.setSignals(1, 0, 0, 0, 2, 0, 0, 1, 0);
                 break;
             case "sll":
-                //sll();
+                break;
+            case "jr" :
                 break;
         }
+        
+        
+        System.out.println(Control.getAluop());
+        dataPath.setInstruction(getMachineCode());
     }
-    
-//    public void printRegisterFileWires() {
-//        System.out.println("Read register 1 wire: " + rs.getRegisterIndex());
-//        System.out.println("Read register 2 wire: " + rt.getRegisterIndex());
-//        System.out.println("Write register wire: " + rd.getRegisterIndex());
-//    }
-//    
-//    public void printRegDstMux() {
-//        System.out.println("First input to RegDst mux: " + rt.getRegisterIndex());
-//        System.out.println("Second input to RegDst mux: " +
-//                rd.getRegisterIndex());
-//    }
-//    
-//    public void printALUSrcMux() {
-//        System.out.println("First input to ALUSrc mux: " + rt.getData());
-//    }
-//    
-//    public void printALUWires() {
-//        System.out.println("First input to ALU: " + rs.getData());
-//        System.out.println("Second input to ALU: " + rt.getData());
-//    }
-//    public void printMemtoRegMux(int firstSrc, int secSrc) {
-//        System.out.println("First input to MemtoReg mux: " + firstSrc);
-//        System.out.println("Second input to MemtoReg mux: " + secSrc);
-//    }
-    private void add() {
-        control.setSignals(1, 0, 0, 0, 2, 0, 0, 1, 0);
-    }
-      private void shift ()
-    {
-    // rd.setData(rs.getData()*shamt*2);
-     // control.setSignals(1, 0, 0, 0, 2, 0, 0, 1);
-           //  pc+=4;
-
-    }
-  
-          private void slt ()
-    {
-        /*if (rs.getData()<rt.getData())
-            rd.setData(1);
-        else rd.setData(0);*/
-               // pc+=4;
-        control.setSignals(1, 0, 0, 0, 2, 0, 0, 1, 0);
-    }
-     private void and ()
-      {
-        //rd.setData(rt.getData()&rs.getData());
-              //  pc+=4;
-            control.setSignals(1, 0, 0, 0, 2, 0, 0, 1, 0);
-      }
-    private void or ()
-    {
-       // rd.setData (rt.getData()|rs.getData());
-             //   pc+=4;
- control.setSignals(1, 0, 0, 0, 2, 0, 0, 1,0);
-    }
-      private void nor ()
-    {
-        //rd.setData (~(rt.getData()|rs.getData())); // me7tag at2aked menha 
-          //  pc+=4;
-           control.setSignals(1, 0, 0, 0, 2, 0, 0, 1,0);
-}
-      
-      private void jr()
-      {
-         
-                 
-      }
       
 }

@@ -1,14 +1,13 @@
 package mips.datapath.and.control.unit.simulator;
 
 public class RegisterFile {
-    private Register[] registers;
+    private static Register[] registers = new Register[32];;
     
     public RegisterFile() {
-        registers = new Register[32];
-        initializeRegisters();
+        
     }
     
-    public void initializeRegisters() {
+    public static void initializeRegisters() {
         registers[0] = new Register("$0", 0, 0);
         registers[1] = new Register("$at", 0, 1);
         registers[2] = new Register("$v0", 0, 2);
@@ -42,11 +41,11 @@ public class RegisterFile {
         registers[31] = new Register("$ra", 0, 31);
     }
     
-    public Register getRegister(int regIndex) {
+    public static Register getRegister(int regIndex) {
         return registers[regIndex];
     }
     
-    public int getRegisterNum(String regName) {
+    public static int getRegisterNum(String regName) {
         for(int i = 0; i < registers.length; i++) {
             if(registers[i].getName().equals(regName)) {
                 return i;
@@ -54,14 +53,6 @@ public class RegisterFile {
         }
         
         return -1;
-    }
-    
-    public void readData(int srcRegIndex, int targetRegIndex) {
-
-        System.out.println("Read data 1 wire from regsiter" + 
-                " file holds value: " + registers[srcRegIndex].getData());
-        System.out.println("Read data 1 wire from regsiter" + 
-                " file holds value: " + registers[targetRegIndex].getData());  
     }
     
     public void writeData(int newValue, int index) {

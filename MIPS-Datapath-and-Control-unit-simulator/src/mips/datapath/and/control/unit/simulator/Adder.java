@@ -5,13 +5,13 @@ public class Adder {
     private int secondSrc;
     private int output;
     
-    public Adder(int inputFirstSrc, int inputSecondSrc) {
-        firstSrc = inputFirstSrc;
-        secondSrc = inputSecondSrc;
-        performOperation();
+    public Adder() {
     }
     
-    private void performOperation() {
+    public void performOperation(int inputFirstSrc, int inputSecondSrc) {
+        
+        firstSrc = inputFirstSrc;
+        secondSrc = inputSecondSrc;
         output = firstSrc + secondSrc;
     }
     

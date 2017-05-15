@@ -1,16 +1,13 @@
 package mips.datapath.and.control.unit.simulator;
 
 public class SignExtend {
-    private int inputOffset;
-    private StringBuffer extendedOutputBits;
+    private static int inputOffset;
+    private static StringBuffer extendedOutputBits;
     
-    public SignExtend(int offset) {
-        inputOffset = offset;
-        extendInput();
-        print();
+    public SignExtend() {
     }
     
-    private void extendInput() {
+    public void extendInput() {
         char leftMostChar;
         if(inputOffset >= 0) {
             leftMostChar = '0';
@@ -25,15 +22,7 @@ public class SignExtend {
         }
     }
     
-    private void print() {
-        System.out.println("Wires [16, 0] going to Sign Extend component " + 
-                "holds value : " + inputOffset);
-        System.out.println("32-bit wire coming out from the Sign Extend " +
-                "component holds value : " + extendedOutputBits + "(" + 
-                inputOffset + ")");
-    }
-    
-    private int getOutput() {
+    public int getOutput() {
         return inputOffset;
     }
 }

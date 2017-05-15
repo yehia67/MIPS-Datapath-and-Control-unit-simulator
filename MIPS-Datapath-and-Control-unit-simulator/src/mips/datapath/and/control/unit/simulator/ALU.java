@@ -1,49 +1,50 @@
  package mips.datapath.and.control.unit.simulator;
 
 public class ALU {
-    String functioncode;
-    int ALUOp;
-    int firstsrc,secondsrc;
-    private int output;
-    private boolean zero;
-    public ALU(int aluop,String funcod,int f, int s)
-    {
-        ALUOp = aluop;
-        functioncode = funcod;
-        firstsrc = f;
-        secondsrc = s;
+    private static String functionCode;
+    private static int ALUOp;
+    private static int firstSrc,secondSrc;
+    private static int output;
+    private static int zero;
+    public ALU() {
+        
     }
-    public void operation(int op,String func){
-        if(op == 0)     // I type
-        {
-          output = firstsrc + secondsrc;
-          zero = false;
+    
+    public static void execute(int op, String funcCode, int src1,
+        int src2) {
+        
+        ALUOp = op;
+        functionCode = funcCode;
+        firstSrc = src1;
+        secondSrc = src2;
+       
+        if(op == 0) {
+          output = firstSrc + secondSrc;
+          zero = 0;
         }
-        else if(op == 1)
-        {
-             output = firstsrc - secondsrc;
+        else if(op == 1) {
+             output = firstSrc - secondSrc;
              if(output == 0) {
-                 zero = true;
+                 zero = 1;
              } else {
-                 zero = false;
+                 zero = 0;
              }
-        } else if(op == 2)
-        {
-           switch(functioncode) {
-               case "0010" :
-                   output = firstsrc + secondsrc;
+        } else if(op == 2) {
+           switch(functionCode) { 
+               case "100000" :
+                   output = firstSrc + secondSrc;
                    break;
-               case "0110":
-                   output = firstsrc - secondsrc;
+               case "100010":
+                   output = firstSrc - secondSrc;
                    break;
-               case "0000":
-                    output = firstsrc & secondsrc;
+               case "100100":
+                    output = firstSrc & secondSrc;
                     break;
-               case "0001":
-                   output = firstsrc | secondsrc;
+               case "100101":
+                   output = firstSrc | secondSrc;
                        break;
-               case "0111":
-                   output = firstsrc - secondsrc;
+               case "101010":
+                   output = firstSrc - secondSrc;
                    if(output >= 0)
                        output = 0;
                    else 
@@ -52,10 +53,12 @@ public class ALU {
            }
         }
     }
-    public boolean getZero(){
-        return zero;
-    }
-    public int getOutput(){
+    
+    public static int getOutput() {
         return output;
+    }
+    
+    public static int getZeroSignal() {
+        return zero;
     }
 }

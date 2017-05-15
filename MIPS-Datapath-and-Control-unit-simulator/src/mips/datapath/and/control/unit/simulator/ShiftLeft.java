@@ -4,13 +4,10 @@ public class ShiftLeft {
     private int inputOffset;
     private int outputOffset;
     
-    public ShiftLeft(int offset) {
-        inputOffset = offset;
-        shiftLeftTwo();
-        print();
+    public ShiftLeft() {
     }
     
-    private void shiftLeftTwo() {
+    public void shiftLeftTwo(int offset) {
         outputOffset = inputOffset * 2;
     }
     
