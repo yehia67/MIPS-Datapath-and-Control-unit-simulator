@@ -1,64 +1,61 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-package mips.datapath.and.control.unit.simulator;
+ package mips.datapath.and.control.unit.simulator;
 
-/**
- *
- * @author Sony
- */
 public class ALU {
-    String ALUOP,functioncode;
+    String functioncode;
+    int ALUOp;
     int firstsrc,secondsrc;
-    public ALU(String aluop,String funcod,int f, int s)
+    private int output;
+    private boolean zero;
+    public ALU(int aluop,String funcod,int f, int s)
     {
-        ALUOP = aluop;
+        ALUOp = aluop;
         functioncode = funcod;
         firstsrc = f;
         secondsrc = s;
     }
-    public int opersation(String op,String func){
-        if(op == "00" && func != "00" && func != "01")     // I type
+    public void operation(int op,String func){
+        if(op == 0)     // I type
         {
-          return firstsrc + secondsrc;
+          output = firstsrc + secondsrc;
+          zero = false;
         }
-        else if(op == "01")
+        else if(op == 1)
         {
-             return firstsrc - secondsrc;
-        }
-       
-        else if(func + op == "0000")
+             output = firstsrc - secondsrc;
+             if(output == 0) {
+                 zero = true;
+             } else {
+                 zero = false;
+             }
+        } else if(op == 2)
         {
-           if(secondsrc > 0 && firstsrc > 0)
-           {
-               return 1;
+           switch(functioncode) {
+               case "0010" :
+                   output = firstsrc + secondsrc;
+                   break;
+               case "0110":
+                   output = firstsrc - secondsrc;
+                   break;
+               case "0000":
+                    output = firstsrc & secondsrc;
+                    break;
+               case "0001":
+                   output = firstsrc | secondsrc;
+                       break;
+               case "0111":
+                   output = firstsrc - secondsrc;
+                   if(output >= 0)
+                       output = 0;
+                   else 
+                       output = 1;
+                   break;
            }
-           else
-           {
-               return 0;
-           }
         }
-        else if(func + op == "0001")
-        {
-            if(secondsrc > 0 || firstsrc > 0)
-           {
-               return 1;
-           }
-           else
-           {
-               return 0;
-           }
-        }
-        else if(func + op == "0111")
-        {
-            return firstsrc - secondsrc;
-        }
-        else 
-            return 9999; //error
-            }
-    
-    
-    
+    }
+    public boolean getZero(){
+        return zero;
+    }
+    public int getOutput(){
+        return output;
+    }
 }

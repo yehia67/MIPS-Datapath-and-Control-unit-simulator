@@ -16,8 +16,14 @@ import java.util.Scanner;
 public class MIPSDatapathAndControlUnitSimulator {
 
     public static void main(String[] args) {
-        RFormat rFormat = new RFormat(null, 0, "$t0", "$t1", "$t2", 0, 0);
-        rFormat.execute();
+        String pcAddress = "";
+        int pc = 80000;
+        pcAddress = Integer.toBinaryString(pc);
+        for(int i = 0; i < 32; i++) {
+            pcAddress = "0" + pcAddress;
+        }
+        
+        System.out.println(pcAddress);
     }
     
 }
