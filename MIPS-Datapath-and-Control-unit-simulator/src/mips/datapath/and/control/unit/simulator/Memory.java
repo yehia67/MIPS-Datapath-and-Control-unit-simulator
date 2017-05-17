@@ -3,7 +3,7 @@ package mips.datapath.and.control.unit.simulator;
 import java.util.ArrayList;
 
 public class Memory {
-<<<<<<< HEAD
+
     private static ArrayList <Data> Datamem = new ArrayList();
     private static ArrayList <Instruction> instrucmem = new ArrayList();
     private static int readData;
@@ -13,7 +13,6 @@ public class Memory {
     }
     
     public static Instruction getInstruction(int address) {
-=======
     private ArrayList <Data> Datamem;
     private ArrayList <Instruction> instrucmem;// 27tmal n3'ayr el data type di ama nygy n3ml class ll instruction
     public static int c = 0, pc = 0;// pc b3dyn haswyha bl adrress
@@ -42,13 +41,12 @@ public class Memory {
         return null;
     }
     
-<<<<<<< HEAD
+
     public static int getInstructionAddress(String label) {
         for(int i = 0; i < instrucmem.size(); i++) {
             if(instrucmem.get(i).getLabel() != null && instrucmem.get(i).getLabel().equals(label)) {
                 return i;
-            }
-=======
+            
     public Memory(double x, Instruction y)
     {   
         //Datamem.set(counter, x);
@@ -64,20 +62,18 @@ public class Memory {
         {
             System.out.println("the adress of memory is "+Datamem.get(i)+" it instruction is "+instrucmem.get(i));
 
->>>>>>> origin/master
         }
         
         return -1;
     }
-<<<<<<< HEAD
-  
+
     public static void load (int address)
     {
         for(int i = 0; i < Datamem.size(); i++) {
             if(Datamem.get(i).getAddress() == address) {
                 readData =  Datamem.get(i).getValue();
             }
-=======
+
     
     
     public int IF(int temp)
@@ -85,11 +81,10 @@ public class Memory {
         if(temp > Memory.pc)
         {
            return -1; 
->>>>>>> origin/master
         }
     return pc-temp/4;
     }
-<<<<<<< HEAD
+
 
     public static void store(int address, int data)
     {
@@ -99,7 +94,6 @@ public class Memory {
     public static int getReadData() {
         return readData;
     }
-=======
   
     public int load (int address)
     {
