@@ -4,7 +4,6 @@ public abstract class Instruction {
     private String label;
     private String machineCode;
     private int address;
-    protected Datapath dataPath = new Datapath();
     
     public Instruction(String newLabel, int mAddress) {
         label = newLabel;
@@ -29,5 +28,5 @@ public abstract class Instruction {
     
     public abstract void generateMachineCode();
     
-    public abstract void execute();
+    public abstract void setControl(Control control);
 }

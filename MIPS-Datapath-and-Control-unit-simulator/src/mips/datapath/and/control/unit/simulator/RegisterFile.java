@@ -1,10 +1,9 @@
 package mips.datapath.and.control.unit.simulator;
 
 public class RegisterFile {
-    private static Register[] registers = new Register[32];;
+    private static Register[] registers = new Register[32];
     
     public RegisterFile() {
-        
     }
     
     public static void initializeRegisters() {
@@ -55,7 +54,7 @@ public class RegisterFile {
         return -1;
     }
     
-    public void writeData(int newValue, int index) {
+    public static void writeData(int newValue, int index) {
         registers[index].setData(newValue);
     }
 }

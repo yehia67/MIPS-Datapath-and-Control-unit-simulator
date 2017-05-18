@@ -11,21 +11,18 @@ public class JFormat extends Instruction{
     }
     
     @Override
-    public void execute(){
+    public void setControl(Control control){
         switch(operation)
         {
             case "j":
-                Control.setSignals(0, 0,0,0,0,0,0,0,1);
+                control.setSignals(0, 0,0,0,0,0,0,0,1);
                 break;
             case "jal":
-                //Control.setSignals(0, 0,0,0,0,0,0,0,1);
+                control.setSignals(2, 0, 0, 2, 0, 0, 0, 1, 1);
                 break;
         }
-        
-        generateMachineCode();
     }
 
-    @Override
     public void generateMachineCode() {
         String machineCode = "";
         switch(operation) {
@@ -37,7 +34,7 @@ public class JFormat extends Instruction{
                 break;
         }
         
-        machineCode += ToBinary.convertToBinary(Memory.getInstructionAddress(jaddress) / 4, 26);
+        machineCode += ToBinary.convertToBinary(Memory.getInstructionAddress(jaddress), 26);
         
         setMachineCode(machineCode);
     }

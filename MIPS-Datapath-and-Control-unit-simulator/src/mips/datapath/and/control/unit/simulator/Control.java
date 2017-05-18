@@ -1,7 +1,7 @@
 package mips.datapath.and.control.unit.simulator;
 
 public class Control {
-    private static int regdst, branch , memread, memtoreg,aluop, memwrite,
+    private int regdst, branch , memread, memtoreg,aluop, memwrite,
             alusrc,regwrite, jump;
     public Control ()
     {
@@ -14,7 +14,7 @@ public class Control {
        alusrc = 0;
        regwrite = 0;
     }
-    public static void setSignals (int mRegdst,int mBranch ,int mMemread,int mMemtoreg,
+    public void setSignals (int mRegdst,int mBranch ,int mMemread,int mMemtoreg,
             int mAluop,int mMemwrite,int mAlusrc,int mRegwrite, int mJump ){
         regdst = mRegdst;
         branch = mBranch;
@@ -27,39 +27,39 @@ public class Control {
         jump = mJump;
     }
 
-    public static int getRegdst() {
+    public int getRegdst() {
         return regdst;
     }
 
-    public static int getBranch() {
+    public int getBranch() {
         return branch;
     }
 
-    public static int getMemread() {
+    public int getMemread() {
         return memread;
     }
 
-    public static int getMemtoreg() {
+    public int getMemtoreg() {
         return memtoreg;
     }
 
-    public static int getAluop() {
+    public int getAluop() {
         return aluop;
     }
 
-    public static int getMemwrite() {
+    public int getMemwrite() {
         return memwrite;
     }
 
-    public static int getAlusrc() {
+    public int getAlusrc() {
         return alusrc;
     }
 
-    public static int getRegwrite() {
+    public int getRegwrite() {
         return regwrite;
     }
     
-    public static int getJump() {
+    public int getJump() {
         return jump;
     }
             

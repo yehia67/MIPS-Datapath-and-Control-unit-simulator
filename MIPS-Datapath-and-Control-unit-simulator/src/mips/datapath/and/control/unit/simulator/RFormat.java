@@ -18,7 +18,6 @@ public class RFormat extends Instruction{
         generateMachineCode();
     }
     
-    @Override
     public void generateMachineCode() {
         String machineCode = "000000";
         String funcCode = "";
@@ -41,6 +40,9 @@ public class RFormat extends Instruction{
             case "slt" :
                 funcCode = "101010";
                 break;
+            case "jr" :
+                funcCode = "001000";
+                break;
         }
         
         machineCode += ToBinary.convertToBinary(rs, 5);
@@ -53,32 +55,30 @@ public class RFormat extends Instruction{
     }
     
     @Override
-    public void execute() {
+    public void setControl(Control control) {
         switch(operation) {
             case "add":
-                Control.setSignals(1, 0, 0, 0, 2, 0, 0, 1, 0);
+                control.setSignals(1, 0, 0, 0, 2, 0, 0, 1, 0);
                 break;
             case "and":
-                Control.setSignals(1, 0, 0, 0, 2, 0, 0, 1, 0);
+                control.setSignals(1, 0, 0, 0, 2, 0, 0, 1, 0);
                 break;
             case "or":
-                Control.setSignals(1, 0, 0, 0, 2, 0, 0, 1,0);
+                control.setSignals(1, 0, 0, 0, 2, 0, 0, 1,0);
                 break;
             case "nor":
-                Control.setSignals(1, 0, 0, 0, 2, 0, 0, 1,0);
+                control.setSignals(1, 0, 0, 0, 2, 0, 0, 1,0);
                 break;
             case "slt":
-                Control.setSignals(1, 0, 0, 0, 2, 0, 0, 1, 0);
+                control.setSignals(1, 0, 0, 0, 2, 0, 0, 1, 0);
                 break;
             case "sll":
+                control.setSignals(0, 0, 0, 0, 2, 0, 0, 1, 0);
                 break;
             case "jr" :
+                control.setSignals(0, 0, 0, 0, 0, 0, 0, 0, 2);
                 break;
         }
-        
-        
-        System.out.println(Control.getAluop());
-        dataPath.setInstruction(getMachineCode());
     }
       
 }

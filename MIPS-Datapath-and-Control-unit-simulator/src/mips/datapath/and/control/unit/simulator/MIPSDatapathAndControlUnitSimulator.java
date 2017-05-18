@@ -20,7 +20,7 @@ public class MIPSDatapathAndControlUnitSimulator {
         //addi $t1,$0,100
         IFormat addi = new IFormat(null, 0,"addi", "$t1", "$0", 100);
         
-        addi.execute();
+        //addi.execute();
     }
     
 }

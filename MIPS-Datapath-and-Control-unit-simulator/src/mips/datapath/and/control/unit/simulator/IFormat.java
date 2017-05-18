@@ -7,6 +7,7 @@ public class IFormat extends Instruction{
     private int offset;
     private String strOffset;  
     private int address;
+    private boolean flagBeq;
     
     
     //El constructor dah 3ashan law da5al ay instruction ma3ada el beq
@@ -18,7 +19,7 @@ public class IFormat extends Instruction{
         this.offset = offset;
         rs = RegisterFile.getRegisterNum(rsName);
         rt = RegisterFile.getRegisterNum(rtName);
-        generateMachineCode();
+        flagBeq = false;
     }
     
     //beq constructor , elly by7sal hena enny 3amalt function fel memory
@@ -26,36 +27,40 @@ public class IFormat extends Instruction{
     // el offset beta3na akenaha IFormat da5la fel 3ady.
     public IFormat(String label, int address, String operation, String rsName,
             String rtName , String targetLabel) {
-        this(label, address, operation , rsName, rtName, Memory.getInstructionAddress(targetLabel));
-        
+        super(label, address);
+        this.operation = operation;
+        rs = RegisterFile.getRegisterNum(rsName);
+        rt = RegisterFile.getRegisterNum(rtName);
+        strOffset = targetLabel;
+        flagBeq = true;
     }
 
     @Override
-    public void execute() {
+    public void setControl(Control control) {
         switch(operation) {
             case "lw" :
-                Control.setSignals(0, 0, 1, 1, 0, 0, 1, 1, 0);
+                control.setSignals(0, 0, 1, 1, 0, 0, 1, 1, 0);
                 break;
             case "sw" :
-                Control.setSignals(0, 0, 0, 0, 0, 1, 1, 0, 0);
+                control.setSignals(0, 0, 0, 0, 0, 1, 1, 0, 0);
                 break;
             case "addi" :
                 //We need to check the ALUOp control signal for addi
-                Control.setSignals(0, 0, 0, 0, 0, 0, 1, 1, 0);
+                control.setSignals(0, 0, 0, 0, 0, 0, 1, 1, 0);
                 break;
             case "ori" :
                 //We need to check the ALUOp control signal for ori
-                Control.setSignals(0, 0, 0, 0, 0, 0, 1, 1, 0);
+                control.setSignals(0, 0, 0, 0, 0, 0, 1, 1, 0);
                 break;
             case "beq" :
-                Control.setSignals(0, 1, 0, 0, 1, 0, 0, 0, 0);
+                control.setSignals(0, 1, 0, 0, 1, 0, 0, 0, 0);
+                break;
+            case "andi" :
+                //control.setSignals(0, 0, 0, 0, rs, rt, rs, rt, rs);
                 break;
         }
-        
-        dataPath.setInstruction(getMachineCode());
     }
-
-    @Override
+    
     public void generateMachineCode() {
         String machineCode = "";
         switch(operation) {
@@ -81,8 +86,13 @@ public class IFormat extends Instruction{
         
         machineCode += ToBinary.convertToBinary(rs, 5);
         machineCode += ToBinary.convertToBinary(rt, 5);
-        machineCode += ToBinary.convertToBinary(offset, 16);
+        if(flagBeq) {
+            offset = Memory.getInstructionAddress(strOffset);
+            offset = (offset - (ProgramCounter.getAddress() + 4)) / 4;
+        }
         
+        machineCode += ToBinary.convertToBinary(offset, 16);
+
         setMachineCode(machineCode);
     }
     

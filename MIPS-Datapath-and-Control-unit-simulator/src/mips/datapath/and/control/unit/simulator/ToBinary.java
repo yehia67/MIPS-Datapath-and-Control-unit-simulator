@@ -6,7 +6,9 @@ public class ToBinary {
         while(result.length() < numOfBits) {
             result = "0" + result;
         }
-        
+        if(result.length() > numOfBits) {
+            return result.substring(result.length() - 16, result.length());
+        }
         return result;
     }
 }
