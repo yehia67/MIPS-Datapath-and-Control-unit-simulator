@@ -50,13 +50,13 @@ public class IFormat extends Instruction{
                 break;
             case "ori" :
                 //We need to check the ALUOp control signal for ori
-                control.setSignals(0, 0, 0, 0, 0, 0, 1, 1, 0);
+                control.setSignals(0, 0, 0, 0, 4, 0, 1, 1, 0);
                 break;
             case "beq" :
                 control.setSignals(0, 1, 0, 0, 1, 0, 0, 0, 0);
                 break;
             case "andi" :
-                //control.setSignals(0, 0, 0, 0, rs, rt, rs, rt, rs);
+                control.setSignals(0, 0, 0, 0, 3, 0, 1, 1, 0);
                 break;
         }
     }

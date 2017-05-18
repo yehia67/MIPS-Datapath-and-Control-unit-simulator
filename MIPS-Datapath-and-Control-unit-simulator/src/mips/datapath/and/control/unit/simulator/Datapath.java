@@ -82,8 +82,10 @@ public class Datapath {
     private void excute()
     {
         pcAdder.performOperation(currentPCAddress, 4);
+        /*String jumpStr = ToBinary.convertToBinary(pcAdder.getOutput()
+                , 32).substring(0, 4) + instruction.substring(31 - 25, 32) + "00";*/
         jumpAddress = Integer.parseInt(ToBinary.convertToBinary(pcAdder.getOutput()
-                , 32).substring(0, 4) + instruction.substring(31 - 26, 32) + "00", 2);
+                , 32).substring(0, 4) + instruction.substring(31 - 25, 32) + "00", 2);
         
         regDstMux.selectOutput(i2016, i1511, 31, control.getRegdst());
         

@@ -10,6 +10,7 @@ public class ALU {
         
     }
     
+    
     public void execute(int op, String funcCode, int src1,
         int src2, int shamt) {
         
@@ -55,9 +56,19 @@ public class ALU {
                    break;
                case "000000" :
                    output = firstSrc << shamt;
-                   break;
-           }
+                   break;           }
+    
+        } else if(op == 3)
+        {
+            output = firstSrc & secondSrc;
+            zero = 0;
         }
+        else if(op == 4)
+        {
+            output = firstSrc | secondSrc;
+            zero = 0;
+        }
+     
     }
     
     public int getOutput() {

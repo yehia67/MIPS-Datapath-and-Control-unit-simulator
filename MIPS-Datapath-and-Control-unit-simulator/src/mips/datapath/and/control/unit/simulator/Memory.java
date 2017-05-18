@@ -36,6 +36,8 @@ public class Memory {
   
     public static void load (int address)
     {
+        
+        
         for(int i = 0; i < dataMem.size(); i++) {
             if(dataMem.get(i).getAddress() == address) {
                 readData =  dataMem.get(i).getValue();

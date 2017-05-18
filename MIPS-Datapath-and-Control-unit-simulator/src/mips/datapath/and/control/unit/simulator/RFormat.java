@@ -15,7 +15,6 @@ public class RFormat extends Instruction{
         rt = RegisterFile.getRegisterNum(rtName);
         rd = RegisterFile.getRegisterNum(rdName);
         this.shamt = shamt;
-        generateMachineCode();
     }
     
     public void generateMachineCode() {

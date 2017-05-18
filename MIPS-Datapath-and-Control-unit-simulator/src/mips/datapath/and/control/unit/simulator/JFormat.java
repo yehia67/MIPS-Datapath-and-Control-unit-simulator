@@ -34,7 +34,8 @@ public class JFormat extends Instruction{
                 break;
         }
         
-        machineCode += ToBinary.convertToBinary(Memory.getInstructionAddress(jaddress), 26);
+        address = Memory.getInstructionAddress(jaddress) / 4;
+        machineCode += ToBinary.convertToBinary(address, 26);
         
         setMachineCode(machineCode);
     }
