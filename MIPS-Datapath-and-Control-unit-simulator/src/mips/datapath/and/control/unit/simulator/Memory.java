@@ -33,7 +33,14 @@ public class Memory {
         
         return -1;
     }
-  
+    
+    public static void removeAll() {
+        for(int i= 0 ;i<dataMem.size();i++)
+            dataMem.remove(i);
+        for(int i= 0 ;i<instructionMem.size();i++)
+            instructionMem.remove(i);
+    }
+    
     public static void load (int address)
     {
         
@@ -55,6 +62,7 @@ public class Memory {
         }
         
         dataMem.add(new Data(address, data));
+        RegisterFile.getRegister(31).setData(address);
     }
     
     public static int getReadData() {

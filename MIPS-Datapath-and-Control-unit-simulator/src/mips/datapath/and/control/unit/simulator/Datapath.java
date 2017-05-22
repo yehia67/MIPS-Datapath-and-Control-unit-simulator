@@ -1,5 +1,7 @@
 package mips.datapath.and.control.unit.simulator;
 
+import javax.swing.JTextArea;
+
 public class Datapath {
     String instruction;
     //SignExtend signextend;
@@ -32,10 +34,15 @@ public class Datapath {
     private int andGateResult;
     private int jumpAddress;
     private int clockCycles;
+    private int jrCntrlUnit;
+    private JTextArea txtOuputArea;
     
-    public Datapath() { 
+    StringBuffer y = new StringBuffer();
+    
+    public Datapath(JTextArea txtArea) { 
         RegisterFile.initializeRegisters();
         currentPCAddress = ProgramCounter.getAddress();
+        txtOuputArea = txtArea;
     }
     
     public void InstructionSeprator ()
@@ -87,6 +94,12 @@ public class Datapath {
         jumpAddress = Integer.parseInt(ToBinary.convertToBinary(pcAdder.getOutput()
                 , 32).substring(0, 4) + instruction.substring(31 - 25, 32) + "00", 2);
         
+        if(i50.equals("001000")) {
+            jrCntrlUnit = 1;
+        } else {
+            jrCntrlUnit = 0;
+        }
+        
         regDstMux.selectOutput(i2016, i1511, 31, control.getRegdst());
         
         readData1 = RegisterFile.getRegister(i2521).getData();
@@ -125,39 +138,41 @@ public class Datapath {
     }
     
     public void print() {
-        System.out.println("Machine code : " + instruction);
-        System.out.println("Current pc : " + currentPCAddress);
-        System.out.println("First source for pc adder : " + currentPCAddress);
-        System.out.println("second source for pc adder : 4");
-        System.out.println("Wires to control unit : " + instruction.substring(0, 6));
-        System.out.println("read register 1 wire : " + i2521);
-        System.out.println("read register 2 wire : " + i2016);
-        System.out.println("first source to regDst mux : " + i2016);
-        System.out.println("sec source to regDst mux : " + i1511);
-        System.out.println("regDst mux output : " + regDstMux.getOutput());
-        System.out.println("input to sign extends : " + i150);
-        System.out.println("read data 1 output wire : " + readData1);
-        System.out.println("read data 2 output wire : " + readData2);
-        System.out.println("sign extend output wire : " + i150);
-        System.out.println("alusrc mux output : " + aluSrcMux.getOutput());
-        System.out.println("instruction 5 - 0 wire : " + i50);
-        System.out.println("alu output : " + alu.getOutput());
-        System.out.println("alu zero signal : " + alu.getZeroSignal());
-        System.out.println("wire going to write data in memory : " +readData2);
-        System.out.println("read data from memory wire : " + Memory.getReadData());
-        System.out.println("memtoReg mux output wire : " + memtoRegMux.getOutput());
-        System.out.println("first src for branch adder wire : " + pcAdder.getOutput());
-        System.out.println("second src for branch adder wire : " + i150 * 4);
-        System.out.println("branch adder result wire  : " + branchAdder.getOutput());
-        System.out.println("second src for jump mux : " + jumpAddress);
-        System.out.println("pcsrc mux output wire : " + pcSrcMux.getOutput());
-        System.out.println("Register " + RegisterFile.getRegister(regDstMux.getOutput()).getName() + 
-                " value : " + RegisterFile.getRegister(regDstMux.getOutput()).getData());
-        System.out.println("=======================");
+        y.append("Machine code : " + instruction+"\n");
+        y.append("Current pc : " + currentPCAddress+"\n");
+        y.append("First source for pc adder : " + currentPCAddress+"\n");
+        y.append("second source for pc adder : 4"+"\n");
+        y.append("Wires input for Jr Control Block : " + i50+"\n");
+        y.append("Wire output from JR Control Block : " + jrCntrlUnit+"\n");
+        y.append("Wires to control unit : " + instruction.substring(0, 6)+"\n");
+        y.append("read register 1 wire : " + i2521+"\n");
+        y.append("read register 2 wire : " + i2016+"\n");
+        y.append("first source to regDst mux : " + i2016+"\n");
+        y.append("sec source to regDst mux : " + i1511+"\n");
+        y.append("regDst mux output : " + regDstMux.getOutput()+"\n");
+        y.append("input to sign extends : " + i150+"\n");
+        y.append("read data 1 output wire : " + readData1+"\n");
+        y.append("read data 2 output wire : " + readData2+"\n");
+        y.append("sign extend output wire : " + i150+"\n");
+        y.append("alusrc mux output : " + aluSrcMux.getOutput()+"\n");
+        y.append("instruction 5 - 0 wire : " + i50+"\n");
+        y.append("alu output : " + alu.getOutput()+"\n");
+        y.append("alu zero signal : " + alu.getZeroSignal()+"\n");
+        y.append("wire going to write data in memory : " +readData2+"\n");
+        y.append("read data from memory wire : " + Memory.getReadData()+"\n");
+        y.append("memtoReg mux output wire : " + memtoRegMux.getOutput()+"\n");
+        y.append("first src for branch adder wire : " + pcAdder.getOutput()+"\n");
+        y.append("second src for branch adder wire : " + i150 * 4+"\n");
+        y.append("branch adder result wire  : " + branchAdder.getOutput()+"\n");
+        y.append("second src for jump mux : " + jumpAddress+"\n");
+        y.append("pcsrc mux output wire : " + pcSrcMux.getOutput()+"\n");
+        y.append("Register " + RegisterFile.getRegister(regDstMux.getOutput()).getName() + 
+                " value : " + RegisterFile.getRegister(regDstMux.getOutput()).getData()+"\n");
+        y.append("======================="+"\n");
         
-        
+        txtOuputArea.setText(txtOuputArea.getText() + y.toString());
     }
-    
+         
     public int getClockCycles() {
         return clockCycles;
     }

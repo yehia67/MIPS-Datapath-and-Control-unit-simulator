@@ -24,19 +24,27 @@ public class MIPSDatapathAndControlUnitSimulator {
             x = scan.nextInt();
         }
         
+        System.out.println("$sp : " + RegisterFile.getRegister(31).getData());
     }
     public static void main(String[] args) {
-        Scanner scan = new Scanner(System.in);
+        
+        MipsSim f = new MipsSim();
+        f.setVisible(true);
+        
+        /*Scanner scan = new Scanner(System.in);
         System.out.println("Please enter the starting address for the program :-");
-        int startingAddr = scan.nextInt();
-        ProgramCounter.setAddress(startingAddr);
+        int startingAddr = scan.nextInt();*/
+        /*ProgramCounter.setAddress(0);
         Datapath datapath = new Datapath();
-        inputmem();
+        Memory.addInstruction(new IFormat("", 0, "addi", "$0", "$t0", 10));
+        Memory.addInstruction(new )
+        /*inputmem();
         System.out.println("Please enter the number of instructions to be executed :- ");
         int numOfInstr = scan.nextInt();
         scan.nextLine();
-        inputInstructions(numOfInstr, startingAddr);
-        datapath.executeInstructions();
+        inputInstructions(numOfInstr, startingAddr);*/
+        //datapath.executeInstructions();
+        
     }
     
     public static void inputInstructions(int numOfInstr, int startingAddr) {
@@ -143,10 +151,6 @@ public class MIPSDatapathAndControlUnitSimulator {
         rsName = scan.nextLine();
         System.out.println("Please enter the constant or the address : ");
         constant = scan.nextInt();
-         if(rdName.equals("$sp"))
-        {
-            
-        }
     }
     
     public static void add(String label, int address) {
